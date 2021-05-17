@@ -91,7 +91,6 @@ const (
 )
 
 func (a *ImageOptimizer) transformPath(req *http.Request) (width int) {
-	log.Println(req.URL.Path, a.formatRegExp.MatchString(req.URL.Path))
 	if a.formatRegExp == nil || !a.formatRegExp.MatchString(req.URL.Path) {
 		return 0
 	}
