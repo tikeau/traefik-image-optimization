@@ -52,7 +52,7 @@ type ImageOptimizer struct {
 
 // New created a new ImageOptimizer plugin.
 func New(ctx context.Context, next http.Handler, conf *Config, name string) (http.Handler, error) {
-	log.Println("Loading image optimization plugin...")
+	log.Println("Loading image optimization plugin...", name)
 
 	if conf.Processor == "" {
 		return nil, fmt.Errorf("processor must be defined")
@@ -91,6 +91,7 @@ const (
 )
 
 func (a *ImageOptimizer) transformPath(req *http.Request) (width int) {
+	req.Header.Del("If-Modified-Since") //304 problem
 	if a.formatRegExp == nil || !a.formatRegExp.MatchString(req.URL.Path) {
 		return 0
 	}
